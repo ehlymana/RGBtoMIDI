@@ -1,0 +1,17 @@
+C:\Users\Emsel\source\repos\MIDI\MIDI\bin\Debug\netstandard2.0\MIDI.deps.json
+C:\Users\Emsel\source\repos\MIDI\MIDI\bin\Debug\netstandard2.0\MIDI.dll
+C:\Users\Emsel\source\repos\MIDI\MIDI\bin\Debug\netstandard2.0\MIDI.pdb
+C:\Users\Emsel\source\repos\MIDI\MIDI\obj\Debug\netstandard2.0\MIDI.csproj.CoreCompileInputs.cache
+C:\Users\Emsel\source\repos\MIDI\MIDI\obj\Debug\netstandard2.0\MIDI.AssemblyInfoInputs.cache
+C:\Users\Emsel\source\repos\MIDI\MIDI\obj\Debug\netstandard2.0\MIDI.AssemblyInfo.cs
+C:\Users\Emsel\source\repos\MIDI\MIDI\obj\Debug\netstandard2.0\MIDI.dll
+C:\Users\Emsel\source\repos\MIDI\MIDI\obj\Debug\netstandard2.0\MIDI.pdb
+C:\Users\Emsel\Desktop\RGBtoMIDI\MIDILibrary\MIDI\bin\Debug\netstandard2.0\MIDI.deps.json
+C:\Users\Emsel\Desktop\RGBtoMIDI\MIDILibrary\MIDI\bin\Debug\netstandard2.0\MIDI.dll
+C:\Users\Emsel\Desktop\RGBtoMIDI\MIDILibrary\MIDI\bin\Debug\netstandard2.0\MIDI.pdb
+C:\Users\Emsel\Desktop\RGBtoMIDI\MIDILibrary\MIDI\obj\Debug\netstandard2.0\MIDI.csprojAssemblyReference.cache
+C:\Users\Emsel\Desktop\RGBtoMIDI\MIDILibrary\MIDI\obj\Debug\netstandard2.0\MIDI.csproj.CoreCompileInputs.cache
+C:\Users\Emsel\Desktop\RGBtoMIDI\MIDILibrary\MIDI\obj\Debug\netstandard2.0\MIDI.AssemblyInfoInputs.cache
+C:\Users\Emsel\Desktop\RGBtoMIDI\MIDILibrary\MIDI\obj\Debug\netstandard2.0\MIDI.AssemblyInfo.cs
+C:\Users\Emsel\Desktop\RGBtoMIDI\MIDILibrary\MIDI\obj\Debug\netstandard2.0\MIDI.dll
+C:\Users\Emsel\Desktop\RGBtoMIDI\MIDILibrary\MIDI\obj\Debug\netstandard2.0\MIDI.pdb
