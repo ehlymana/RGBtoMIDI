@@ -32,3 +32,12 @@ C:\Users\Nejra\Documents\ETF\Master\I semestar\MMS\Seminarski\Project\RGBtoMIDI\
 C:\Users\Nejra\Documents\ETF\Master\I semestar\MMS\Seminarski\Project\RGBtoMIDI\MIDILibrary\MIDI\obj\Debug\netstandard2.0\MIDI.AssemblyInfo.cs
 C:\Users\Nejra\Documents\ETF\Master\I semestar\MMS\Seminarski\Project\RGBtoMIDI\MIDILibrary\MIDI\obj\Debug\netstandard2.0\MIDI.dll
 C:\Users\Nejra\Documents\ETF\Master\I semestar\MMS\Seminarski\Project\RGBtoMIDI\MIDILibrary\MIDI\obj\Debug\netstandard2.0\MIDI.pdb
+C:\Users\MM\Desktop\Master\I semestar\MMS\seminarski\RGBtoMIDI\MIDILibrary\MIDI\bin\Debug\netstandard2.0\MIDI.deps.json
+C:\Users\MM\Desktop\Master\I semestar\MMS\seminarski\RGBtoMIDI\MIDILibrary\MIDI\bin\Debug\netstandard2.0\MIDI.dll
+C:\Users\MM\Desktop\Master\I semestar\MMS\seminarski\RGBtoMIDI\MIDILibrary\MIDI\bin\Debug\netstandard2.0\MIDI.pdb
+C:\Users\MM\Desktop\Master\I semestar\MMS\seminarski\RGBtoMIDI\MIDILibrary\MIDI\obj\Debug\netstandard2.0\MIDI.csprojAssemblyReference.cache
+C:\Users\MM\Desktop\Master\I semestar\MMS\seminarski\RGBtoMIDI\MIDILibrary\MIDI\obj\Debug\netstandard2.0\MIDI.csproj.CoreCompileInputs.cache
+C:\Users\MM\Desktop\Master\I semestar\MMS\seminarski\RGBtoMIDI\MIDILibrary\MIDI\obj\Debug\netstandard2.0\MIDI.AssemblyInfoInputs.cache
+C:\Users\MM\Desktop\Master\I semestar\MMS\seminarski\RGBtoMIDI\MIDILibrary\MIDI\obj\Debug\netstandard2.0\MIDI.AssemblyInfo.cs
+C:\Users\MM\Desktop\Master\I semestar\MMS\seminarski\RGBtoMIDI\MIDILibrary\MIDI\obj\Debug\netstandard2.0\MIDI.dll
+C:\Users\MM\Desktop\Master\I semestar\MMS\seminarski\RGBtoMIDI\MIDILibrary\MIDI\obj\Debug\netstandard2.0\MIDI.pdb

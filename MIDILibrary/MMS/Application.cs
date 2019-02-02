@@ -50,6 +50,7 @@ namespace MMS
             {
                 for (int j = 0; j < width; j++)
                 {
+
                     Color pixel = bitmap.GetPixel(j, i);
 
                     float hue = pixel.GetHue(); //get Hue of pixel
@@ -59,7 +60,64 @@ namespace MMS
                 }
             }
 
-            return note;
+            //since large images will produce longer audio files, the factor variable is introduced
+            //similar to DCT, we will use blocks of the image to shorten the audio file
+            //bigger images will have a bigger factor
+
+            List<List<int>> notes = new List<List<int>>();
+            int factor = 8;
+
+            if (width > 2500 || height > 2500)
+            {
+                factor = 64;
+            }
+            else if (width > 1500 || height > 1500)
+            {
+                factor = 32;
+            }
+            else if (width > 1000 || height > 1000)
+            {
+                factor = 16;
+            }
+
+            //calculating average normalized hue value for blocks size (factor x factor)
+            for (int i = 0; i < height; i += factor)
+            {
+                List<int> temp = new List<int>();
+                for (int j = 0; j < width; j += factor)
+                {
+                    double sum = 0;
+                    //total is kept track of since it is possible that a whole block would not fit in (instead of padding the image)
+                    int total = 0;
+
+                    for (int k = i; k < i + factor && k < height; k++)
+                    {
+                        for (int l = j; l < j + factor && l < width; l++)
+                        {
+                            sum += note[k, l];
+                            total++;
+                        }
+                    }
+                    temp.Add((int)(Math.Floor(sum / total)) + 1);
+                    sum = 0;
+                    total = 0;
+
+                }
+                notes.Add(temp);
+            }
+
+            //copying to the needed return type
+            int[,] returnNote = new int[notes.Count, notes[0].Count];
+
+            for (int i = 0; i < returnNote.GetLength(0); i++)
+            {
+                for (int j = 0; j < returnNote.GetLength(1); j++)
+                {
+                    returnNote[i, j] = notes[i][j];
+                }
+            }
+
+            return returnNote;
 
         }
 

@@ -177,23 +177,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Nejra\\.nuget\\packages\\": {},
+    "C:\\Users\\MM\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Nejra\\Documents\\ETF\\Master\\I semestar\\MMS\\Seminarski\\Project\\RGBtoMIDI\\MIDILibrary\\MIDI\\MIDI.csproj",
+      "projectUniqueName": "C:\\Users\\MM\\Desktop\\Master\\I semestar\\MMS\\seminarski\\RGBtoMIDI\\MIDILibrary\\MIDI\\MIDI.csproj",
       "projectName": "MIDI",
-      "projectPath": "C:\\Users\\Nejra\\Documents\\ETF\\Master\\I semestar\\MMS\\Seminarski\\Project\\RGBtoMIDI\\MIDILibrary\\MIDI\\MIDI.csproj",
-      "packagesPath": "C:\\Users\\Nejra\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Nejra\\Documents\\ETF\\Master\\I semestar\\MMS\\Seminarski\\Project\\RGBtoMIDI\\MIDILibrary\\MIDI\\obj\\",
+      "projectPath": "C:\\Users\\MM\\Desktop\\Master\\I semestar\\MMS\\seminarski\\RGBtoMIDI\\MIDILibrary\\MIDI\\MIDI.csproj",
+      "packagesPath": "C:\\Users\\MM\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\MM\\Desktop\\Master\\I semestar\\MMS\\seminarski\\RGBtoMIDI\\MIDILibrary\\MIDI\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Nejra\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\MM\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
