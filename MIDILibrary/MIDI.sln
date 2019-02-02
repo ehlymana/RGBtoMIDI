@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MIDI", "MIDI\MIDI.csproj", "{86894120-73E4-4BFF-8330-3EB21F4B93EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MIDI", "MIDI\MIDI.csproj", "{86894120-73E4-4BFF-8330-3EB21F4B93EB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MIDITest", "MIDITest\MIDITest.csproj", "{D3B9AABB-F261-40EC-877D-A545AE893994}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MMS", "MMS\MMS.csproj", "{63C64060-597C-4400-A95F-BAB42BEABAF3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{D3B9AABB-F261-40EC-877D-A545AE893994}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3B9AABB-F261-40EC-877D-A545AE893994}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D3B9AABB-F261-40EC-877D-A545AE893994}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63C64060-597C-4400-A95F-BAB42BEABAF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63C64060-597C-4400-A95F-BAB42BEABAF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63C64060-597C-4400-A95F-BAB42BEABAF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63C64060-597C-4400-A95F-BAB42BEABAF3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

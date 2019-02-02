@@ -16,5 +16,6 @@ namespace MIDITest
             for (int i = 0; i < 128; i++) m.addNote(i);
             m.createMIDIFile("test");
         }
+
     }
 }
