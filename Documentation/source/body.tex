@@ -1,0 +1,353 @@
+\documentclass[12pt,a4paper]{article}
+
+\input{include.tex}
+
+\begin{document}
+
+\input{coverPage.tex}
+
+\section*{Definicija Zadatka}
+
+U ovom radu opisan je postupak pretvaranja RGB slika u zvučni sadržaj. U ovu svrhu prvo je neophodno izdvojiti boje iz slike (budući da se rezultujuće zvučne datoteke razlikuju na osnovu različitog udjela boja u RGB slici), zatim je potrebno na adekvatan način dodijeliti određeni ton (od mogućih 128) nijansama boja, te kreirati zvučnu datoteku u \textit{.mid} formatu. Kako bi se ovaj postupak demonstrirao, napravljena je \textit{Windows Forms} aplikacija koristeći programski jezik \texttt{C\#}, koja korisnicima omogućava odabir slike u boji za konverziju, pokretanje postupka konverzije te puštanje rezultujućeg zvučnog sadržaja. \\
+
+U radu su detaljno opisane sve faze konverzije, uključujući razlaganje slike na \textit{color channels}, mapiranje različitih boja u karakteristične frekvencije zvuka (tonove), odabir audio formata koji je najpogodniji za ovakvu konverziju te sam postupak kreiranja audio \textit{file}-ova u odabranom formatu. Opisan je način implementacije aplikacije koja vrši konverziju, odnosno način na koji se slika razlaže na \textit{color channels}, boje dodjeljuju frekvencijama, te date frekvencije koriste kako bi se kreirao audio \textit{file} koji korisnici zatim mogu slušati. \\
+
+Na kraju je opisan značaj ovakvog postupka, odnosno njegova moguća primjena u praksi za omogućavanje diferenciranja (i općenito identifikacije) različitih boja za ljude koji nisu u stanju da vide boje (ahromatopsija) ili razlikuju pojedine boje (daltonizam), te preciznost same konverzije.
+
+\newpage
+
+\section*{Izjava o Doprinosu Članova Tima Pri Izradi Seminarskog Rada}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{| c | p{12 cm} |}
+\hline
+\textbf{Član tima}					& \textbf{Aktivnosti}		\\ \hline
+\multirow{4}{*}{Belma Muftić}		& \textit{Analiza problema}: Definicija teme \\
+								& \textit{Osmišljavanje rješenja}: Pronalazak rješenja za problem pretvaranja \textit{color channels} u oblik pogodan za pretvaranje u zvučni sadržaj \\
+								& \textit{Praktična implementacija}: Dio rastavljanja slike na \textit{color channels} i pretvaranje u ekvivalentne frekvencije zvuka \\
+								& \textit{Pisanje teksta}: Za prethodno navedeni dio problema \\ \hline
+\multirow{4}{*}{Nejra Kulović}		& \textit{Analiza problema}: Odabir tehnologije za razvoj rješenja \\
+								& \textit{Osmišljavanje rješenja}: Ideja za rješavanje problema dodjeljivanja odgovarajućih frekvencija zvuka dekodiranim bojama \\
+								& \textit{Praktična implementacija}: Aplikacija koja objedinjuje zasebne dijelove za manipulisanje slikom i zvukom te njihovo spajanje i usklađivanje \\
+								& \textit{Pisanje teksta}: Za prethodno navedeni dio problema \\ \hline
+\multirow{4}{*}{Ehlimana Krupalija} & \textit{Analiza problema}: Odabir vrste protokola za rezultujuće zvučne \textit{file}-ove \\
+								& \textit{Osmišljavanje rješenja}: Prilagođavanje \textit{.mid} formata primjeni te pretvaranje dodijeljenih frekvencija u audio format \\
+								& \textit{Praktična implementacija}: Dio definisanja dijelova MIDI \textit{file}-a, ubacivanja zvučnog sadržaja i kreiranja \textit{.mid file}-a \\
+								& \textit{Pisanje teksta}: Za prethodno navedeni dio problema \\ \hline
+\end{tabular}
+\caption{Opis aktivnosti članova tima pri rješavanju problema}
+\end{table}
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\section{Uvod}
+
+\subsection{Postavka problema}
+
+Problem koji će biti riješen u okviru ovog rada je pronalazak načina da se premosti prepreka koju predstavlja nemogućnost viđenja ili razlikovanja boja. Budući da osobe koji nisu u stanju razlikovati ili vidjeti boje vide slike u boji kao da su \textit{grayscale}, neophodno je izvršiti ekstrakciju onih elemenata koje oni ne vide - boje - te njihovu konverziju u sadržaj koji će moći razlikovati, što je u najvećem broju slučajeva zvuk. Iz tog razloga izvršiti će se postupak konverzije RGB slika u zvučni sadržaj. \\
+
+U ovu svrhu potrebno je definisati tri glavne faze konverzije:
+
+\begin{enumerate}
+
+\item \underline{Izdvajanje boja iz slike}, odnosno adekvatno razlaganje slike na određeni broj nijansi;
+\item \underline{Mapiranje pojedinih boja u frekvencije zvuka};
+\item \underline{Kreiranje audio \textit{file}-a} na osnovu informacija o tonovima od kojih se ista treba sastojati.
+
+\end{enumerate}
+
+U nastavku će biti detaljno objašnjene sve faze konverzije, odnosno način ekstrakcije boja iz slike, njihovog mapiranja u različite frekvencije zvuka (koje će predstavljati način razlikovanja boja) te spajanja različitih boja u jedinstven audio \textit{file} koji će zatim biti moguće reproducirati te na taj način putem slušnog organa omogućiti identifikaciju različitih boja.
+
+\subsection{Rastavljanje RGB slika na \textit{color channels}}
+
+\% Belmin dio
+
+\subsection{Mapiranje pojedinih boja u frekvencije zvuka}
+
+\% Nejrin dio
+
+\subsection{Kreiranje zvučnog sadržaja na osnovu boja}
+
+\subsubsection{Odabir audio formata}
+
+Postoji veliki broj audio formata koji omogućavaju čuvanje zvučnih sadržaja nastalih prirodnim ili vještačkim putem, no većina takvih formata zahtijeva \textbf{uzorkovanje signala} te veliku preciznost kako bi izlazni \textit{file}-ovi bili dovoljno kvalitetni. S povećanjem broja uzoraka u jedinici vremena povećava se kvalitet zvučnog sadržaja, no u isto vrijeme, povećava se i \textbf{memorija potrebna za njihovo čuvanje}. \\
+
+Prema Nyquistovom teoremu o uzorkovanju, frekvencija uzorkovanja signala mora biti barem dva puta veća od kritične frekvencije prisutne u izvornom signalu kako bi se signal mogao uspješno rekonstruisati. U slučaju zvuka, ljudski slušni sistem ima najvišu frekvenciju mehaničke rezonance u iznosu od \textbf{20 kHz}, te iz tog razloga frekvencija uzorkovanja treba biti \textbf{barem 40 kHz} kako ne bi došlo do pojave \textit{aliasinga} (pogrešne rekonstrukcije signala zbog nedovoljnog uzorkovanja) \cite{shupi}. Na Slici \ref{audioQualities} prikazan je trend porasta zauzeća memorije pri porastu kvaliteta prirodnih audio sadržaja, te je vidljivo da veći broj audio formata nema dovoljnu frekvenciju uzorkovanja za rekonstrukciju ulaznih zvučnih signala. \cite{dat}\\
+
+\begin{figure}[H]
+
+\center
+\includegraphics[scale=0.5]{../res/audioQualities.png}
+\caption{Odnos količine podataka s frekvencijom uzorkovanja audio signala \cite{dat}}
+\label{audioQualities}
+
+\end{figure}
+
+U slučaju pretvaranja slika u zvučni sadržaj, nema razloga za korištenje audio formata koji imaju visoku frekvenciju uzorkovanja, odnosno koji su prilagođeni za uzorkovanje ulaznih signala (poput RIFF, PCM ili DSD formata), budući da je manja frekvencija uzorkovanja, tj. manja preciznost pri kvantizaciji, \textbf{sasvim dovoljna} kako bi vještački kreiran zvuk bio dovoljno kvalitetan. Jedan od formata koji je pogodan za ovakvu obradu je \textbf{MIDI format}, o kojem će biti više riječi u nastavku.
+
+\subsubsection{\textit{Musical Instrument Digital Interface} format}
+
+MIDI predstavlja protokol kreiran ranih 1980-ih godina kako bi se omogućilo \textbf{kontrolisanje muzičkih instrumenata} i svih njihovih aspekata (visina, jačina tona, pritisak na tipku, držanje tipke, ritam, sinkope i sl.), što nijedan prethodni format nije razmatrao. Glavna razlika između standardnih formata za digitalizaciju zvuka i MIDI formata je u tome što se u ovom formatu \textbf{ne čuvaju podaci o uzorcima zvučnog signala}, tako da se omogućava kreiranje \textit{file}-ova koji se ne sastoje od velikog broja uzoraka frekvencija zvuka u vremenu. \\
+
+U ovom formatu, zvuk poprima jednu od \textbf{128 karakterističnih frekvencija} (odnosno, frekvencija predstavljenih 16-bitnim vrijednostima) odabranih za predstavljanje muzičkih nota (pri čemu je najniži ton C$_0$ kodiran heksadecimalnom vrijednošću \texttt{00 00}, te ima frekvenciju od 16.35 Hz, a najviši ton B$_9$ kodiran je heksadecimalnom vrijednošću \texttt{FF FF} i ima frekvenciju 15,804.26 Hz \cite{frequencies}). Na ovaj način postiže se da je veličina \textit{file}-ova koji koriste ovaj protokol \textbf{mala u odnosu na druge formate}, jer nema potrebe za čuvanjem velikog broja uzoraka po jedinici vremena, zbog čega je za posljedicu i veličina audio \textit{file}-ova koji koriste MIDI format manja u odnosu na druge audio formate. \cite{dat} \\
+
+Posljedica mapiranja svih frekvencija zvuka u 128 karakterističnih frekvencija je \textbf{manji kvalitet zvuka}, no na ovaj način omogućava se kreiranje \textbf{potpuno vještačkog signala} (čemu je ovaj format primarno i namijenjen), što je veoma teško ili nemoguće izvršiti koristeći druge formate, budući da to nije njihova primarna namjena (već digitalizacija prirodnog zvučnog signala te što vjernije predstavljanje istog). \\
+
+Još jedna važna razlika između MIDI formata i standardnih formata je u tome što je zvučni signal u standardnim formatima potpuno definisan, te je kao takav \textbf{na svim izlaznim uređajima uvijek isti}. MIDI format definiše veliki broj različitih aspekata važnih za izlazni signal i njegove pojedine dijelove, no sam ton (odnosno, karakteristična frekvencija) predstavlja samo \textbf{smjernicu} za konačni izlazni signal, što omogućava da se za isti ulazni \textit{file} dobiju različiti izlazni signali koristeći različite izlazne uređaje. Budući da su izlazni uređaji najčešće simulatori muzičkih instrumenata, na ovaj način postiže se jednostavna tranzicija između njih, te nije potrebno uvoditi dodatne specifikacije kako bi se omogućio ovaj efekat. Ovakvo nešto nemoguće je izvršiti koristeći standardne audio formate. \cite{dat} \\
+
+U Tabeli \ref{TMIDI} prikazana je struktura kompletnog MIDI \textit{file}-a, o kojoj će biti riječi u nastavku.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{ | b b b b b | f f | e e |}
+\hline
+\rowcolor{gray}
+\multicolumn{5}{| c |}{\textit{MIDI Header}	}				& \multicolumn{2}{ c |}{\textit{Track Header}}		& \multicolumn{2}{ c |}{\textit{Track Data}}			\\ \hline
+4D 54 68 64	& 00 00 00 06 & 00 XX & D & E 				& 4D 54 72 6B 	& G								& [...] 	& 00 FF 2F 00								\\ \hline
+\end{tabular}
+\caption{Struktura MIDI \textit{file}-a}
+\label{TMIDI}
+\end{table}
+
+\textit{File}-ovi u MIDI formatu sastoje se od sljedećih dijelova \cite{midi}:
+
+\begin{enumerate}
+
+\item \textbf{\textit{MIDI Header}}, koji specificira format \textit{file}-a:
+
+\begin{itemize}
+\renewcommand\labelitemi{--}
+
+\item \textbf{Sekcija A}: Označava da je format \textit{file}-a MIDI, te se sastoji od 4 \textit{byte}-a koji imaju heksadecimalnu vrijednost \texttt{4D 54 68 64};
+\item \textbf{Sekcija B}: Specificira veličinu ostatka MIDI \textit{header}-a, odnosno broja \textit{byte}-a do početka informacija o samom signalu, te se sastoji od 4 \textit{byte}-a koji imaju heksadecimalnu vrijednost \texttt{00 00 00 06} (budući da ostali dijelovi \textit{header}-a imaju fiksnu dužinu);
+\item \textbf{Sekcija C}: Označava tip MIDI formata. Postoje tri moguća tipa: \textit{tip 0} (osnovni tip), \textit{tip 1} (omogućava korištenje do 2$^16$ različitih \textit{channels} za definisanje različitih signala koji se pokreću u isto vrijeme) i \textit{tip 2} (koji predstavlja više MIDI \textit{file}-ova u jednom kako bi se definisali različiti šabloni zvuka). Ova sekcija sastoji se od 2 \textit{byte}-a (za najčešće korišteni tip 1, heksadecimalna vrijednost ove sekcije je \texttt{00 01});
+\item \textbf{Sekcija D}: Označava broj \textit{channels} koji će se koristiti u \textit{file}-u, te se sastoji od 2 \textit{byte}-a;
+\item \textbf{Sekcija E}: Označava brzinu signala, odnosno ritam zvuka, te se sastoji od 2 \textit{byte}-a.
+
+\end{itemize}
+
+U Tabeli \ref{MHeader} prikazana je struktura ovog dijela MIDI \textit{file}-ova.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{ | a a a a | b b b b | d d | e e | f f |}
+\hline
+\rowcolor{gray}
+\multicolumn{4}{| c |} A 				& \multicolumn{4}{c |} B 				& \multicolumn{2}{c |} C 		& \multicolumn{2}{c |} D 		& \multicolumn{2}{c |} E 		\\ \hline
+4D 	& 54	& 68	& 64			& 00	& 00	& 00	& 06		& 00	& XX 				& YY	& YY				& ZZ	& ZZ				\\ \hline
+\end{tabular}
+\caption{Struktura MIDI \textit{header}-a}
+\label{MHeader}
+\end{table}
+
+\item \textbf{\textit{Track Header}}, koji daje osnovne informacije o samom zvučnom signalu:
+
+\begin{itemize}
+\renewcommand\labelitemi{--}
+
+\item \textbf{Sekcija F}: Označava početak podataka o zvučnom signalu, te se sastoji od 4 \textit{byte}-a koji imaju heksadecimalnu vrijednost \texttt{4D 54 72 6B};
+\item \textbf{Sekcija G}: Specificira broj \textit{byte}-a u ostatku \textit{file}-a, odnosno veličinu samog zvučnog signala. Budući da se ova sekcija sastoji od 4 \textit{byte}-a, najveća moguća veličina zvučnog signala je 2$^32$ \textit{byte}-a.
+
+\end{itemize}
+
+U Tabeli \ref{THeader} prikazana je struktura ovog dijela MIDI \textit{file}-ova.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{ | e e e e | a a a a |}
+\hline
+\rowcolor{gray}
+\multicolumn{4}{| c |} F 				& \multicolumn{4}{c |} G 				\\ \hline
+4D 	& 54	& 72	& 6B			& XX	& XX	& XX	& XX		\\ \hline
+\end{tabular}
+\caption{Struktura \textit{track header}-a}
+\label{THeader}
+\end{table}
+
+\item \textbf{\textit{Track Data}}, koji sadrži sam signal, odnosno njegove pojedine dijelove (muzičke tonove). Svaki ton sastoji se iz sljedećih dijelova:
+
+\begin{itemize}
+\renewcommand\labelitemi{--}
+
+\item \textbf{\textit{Timestamp}}: Označava broj vremenskih jedinica koje trebaju proći prije početka sljedećeg tona, odnosno njegovo kašnjenje. Za čekanja do 127 otkucaja (\texttt{7F}) ova sekcija sastoji se od jednog \textit{byte}-a. \\
+
+Za sva veća čekanja, dodaje se po jedan \textit{byte} vrijednosti \texttt{81} koja se zatim povećava po potrebi (naprimjer, čekanje od 128 otkucaja specificira se kao \texttt{81 7F}, pri čemu se ne uvodi novi \textit{byte} dok se ne dostigne vrijednost \texttt{FF 7F} i sl.). \\
+
+Razlog za ovakvo kodiranje je što je potrebno biti moguće kodirati velika kašnjenja, a u isto vrijeme treba se moći identificirati mjesto na kojem informacija o kašnjenju završava, što ne bi bilo moguće u slučaju da svi \textit{byte}-i mogu poprimiti vrijednosti od \texttt{00} do \texttt{FF};
+\item \textbf{\textit{Status}}: Gornja četiri bita ovog \textit{byte}-a označavaju događaj (\textit{event}), odnosno akciju koju je potrebno izvršiti prije početka sljedećeg tona (moguće vrijednosti prikazane su u tabeli \ref{status}), dok donja četiri bita označavaju \textit{channel} na koji se sljedeći ton i sve specificirane postavke odnose.
+\item \textbf{\textit{Pitch}}: Predstavlja karakterističnu frekvenciju, odnosno sljedeći ton u zvučnom signalu, te se sastoji od jednog \textit{byte}-a (vrijednosti od \texttt{00} do \texttt{7F});
+\item \textbf{\textit{Volume}}: Predstavlja jačinu tona, te se sastoji od jednog \textit{byte}-a (vrijednosti od \texttt{00} do \texttt{7F}).
+
+\end{itemize}
+
+U Tabeli \ref{TData} prikazana je struktura ovog dijela MIDI \textit{file}-ova.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{ | b b | e f | d | a |}
+\hline
+\rowcolor{gray}
+\multicolumn{2}{| c |}{Timestamp}			& \multicolumn{2}{ c |}{Status}				& Pitch		& Volume 				\\ \hline
+[...] 	& XX								& Y		& Z									& AA		& BB					\\ \hline
+\end{tabular}
+\caption{Struktura pojedinih tonova}
+\label{TData}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{| P{2.5 cm} | c |}
+\hline
+\rowcolor{gray}
+Statusni bit 		& Značenje											\\ \hline
+8				& Ugasi ton											\\ \hline
+9				& Upali ton											\\ \hline
+A 				& Pritisak tipke instrumenta (\textit{AfterTouch})			\\ \hline
+B 				& Kontroler (simulacija fizičkih osobina uređaja) \cite{dat}	\\ \hline
+C 				& Promjena programa (simulacija efekata) \cite{dat}		\\ \hline
+D 				& Jačina pritiska na tipku								\\ \hline
+E 				& Visina tona											\\ \hline
+\end{tabular}
+\caption{Moguće vrijednosti statusnih bita}
+\label{status}
+\end{table}
+
+Važno je napomenuti da se nakon posljednjeg tona mora definisati kraj zvučnog sadržaja ubacivanjem vrijednosti \texttt{00 FF 2F 00}. Ovo je jedna od formi \textit{meta events}, odnosno lažnih događaja koji se kodiraju na isti način kao i stvarni događaji koji proizvode tonove, no kao posljedicu nemaju novi ton, već neku drugu akciju. Svi lažni događaji sastoje se iz četiri dijela:
+
+\begin{itemize}
+\renewcommand\labelitemi{--}
+
+\item Prvi \textit{byte} označava da je u pitanju \textit{meta event} i uvijek ima heksadecimalnu vrijednost \texttt{FF};
+\item Drugi \textit{byte} specificira vrstu \textit{meta event}-a (informacije o samom \textit{file}-u (broj snimka, autor, godina, ime kompozicije i sl.), tempo, MIDI port, itd.) \cite{dat};
+\item Treći dio specificira broj \textit{byte}-a od kojih se sami podaci sastoje;
+\item Četvrti dio sadrži same podatke.
+
+\end{itemize}
+
+U Tabeli \ref{TMetadata} prikazana je struktura ovog dijela MIDI \textit{file}-ova.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{ | f | d | a | b |}
+\hline
+\rowcolor{gray}
+1			& 2				& 3			& 4 				\\ \hline
+FF 			& XX			& YY		& [...]			\\ \hline
+\end{tabular}
+\caption{Struktura \textit{meta event}-a}
+\label{TMetadata}
+\end{table}
+
+\end{enumerate}
+
+\newpage
+
+\section{Implementacija rješenja problema}
+
+\subsection{Manipulacija slikom}
+
+\% Belmin dio
+
+\subsection{Manipulacija zvukom}
+
+Treća faza konverzije RGB slika u zvuk je \textbf{kreiranje MIDI \textit{file}-a} s tonovima koji predstavljaju odgovarajuće boje od kojih se slika sastoji. Kako bi se to omogućilo, kreirana je klasa \texttt{MIDIFile}, čiji atributi predstavljaju pojedine dijelove MIDI \textit{file}-a koji se sukcesivno kreira, odnosno koji ima predefinisane dijelove (\textit{header} dijelove), a dio koji se odnosi na same podatke (tj. tonove) inicijalno je prazan. Atributi klase \texttt{MIDIFile} prikazani su u Listingu \ref{MIDIclass}.
+
+\begin{lstlisting}[language={[Sharp]C}, caption={Klasa MIDIFile i njeni atributi}, label={MIDIclass}]
+public class MIDIFile
+    {
+        #region MIDIHeader
+        string format = "4D546864"; // specifies that the file format is MIDI (MThd)
+        string headerSize = "00000006"; // specifies the number of bytes of
+                    // the following three parts of the MIDI header (SMF)
+        string type = "0001"; // specifies the type of MIDI (0, 1 or 2)
+        string tracks = "0001"; // specifies the number of tracks (0 - 65.536)
+        string speed = "0080"; // specifies the speed of music
+        #endregion
+        #region TrackHeader
+        string start = "4D54726B"; // specifies the track start (MTrk)
+        string noOfBytes = ""; // specifies the number of bytes in the track
+        #endregion
+        #region Track
+        string data = ""; // specifies the musical notes in the track
+        string rhythm = "8100"; // specifies the speed of each note
+        string volume = "60"; // specifies the volume of each note
+        string end = "00FF2F00"; // specifies the track end
+        #endregion
+    }
+\end{lstlisting}
+~\\
+Klasa \texttt{MIDIFile} omogućava \textbf{dodavanje novog tona} na vrlo jednostavan način. Kao parametar se prima cjelobrojna vrijednost između 0 i 127 (koja predstavlja karakterističnu frekvenciju tona), te se zatim provjerava da li je u pitanju prvi ton ili ne. Ukoliko je u pitanju prvi ton, potrebno je poslati signal da se pritišće prva tipka, dok je u svakom drugom slučaju dovoljno dodati samo broj otkucaja koji se čekaju do početka sljedećeg tona. Zatim se dodaje vrijednost koja označava karakterističnu frekvenciju (uz dodatnu provjeru da li karakteristična vrijednost ima dva \textit{byte}-a, te ukoliko nema, drugi \textit{byte} se manuelno dodaje), te trenutno postavljena vrijednost jačine zvuka. Ova funkcionalnost implementirana je u funkciji \texttt{addNote}, čija je struktura prikazana u Listingu \ref{MIDInote}.
+
+\begin{lstlisting}[language={[Sharp]C}, caption={Metoda za dodavanje tonova u MIDI \textit{file}}, label={MIDInote}]
+// adds a new note (range from 0 to 127) to the track
+        public void addNote(int note)
+        {
+            if (data.Length == 0) data += "800090"; // the first note needs
+                            // to send the signal to turn the notes on
+            else data += rhythm;
+            if (note < 16) data += "0";
+            data += note.ToString("X") + volume;
+        }
+\end{lstlisting}
+~\\
+Nakon dodavanja svih željenih tonova, potrebno je kreirati \textit{.mid file} koji se sastoji od svih prethodno navedenih dijelova. Nakon dodavanja posljednjeg, ''tihog'' tona koji signalizira otpuštanje pritiska na tipku, svi dijelovi (\textit{headers} i \textit{data}) sastavljaju se u \textbf{jedinstvenu varijablu} koja se sastoji od heksadecimalnih vrijednosti prikazanih u obliku karaktera. Ti karakteri zatim se pretvaraju u binarne vrijednosti (2 po 2 karaktera, kako bi se dobila 16-bitna vrijednost) koje se redom upisuju u \textbf{binarni \textit{file} s ekstenzijom \textit{.mid}}. Ova funkcionalnost implementirana je u funkciji \texttt{createMIDIFile}, čija je struktura prikazana u Listingu \ref{MIDIfile}.
+
+\begin{lstlisting}[language={[Sharp]C}, caption={Spajanje svih dijelova MIDI \textit{file}-a i kreiranje \textit{.mid file}-a}, label={MIDIfile}]
+        // puts all file parts together and writes to .mid file
+        public void createMIDIFile(string path)
+        {
+            data += rhythm + "B07B00"; // the final note just turns off the music
+            noOfBytes = ((data.Length + end.Length) / 2).ToString("X");
+            			// previously skipped part of TrackHeader
+            while (noOfBytes.Length < 8) noOfBytes = "0" + noOfBytes;
+            			// the noOfBytes part needs to have 8 bytes
+            string file = format + headerSize + type + tracks + speed +
+                          start + noOfBytes + data + end; // putting all parts together
+            // writing to .mid file - hexadecimal code is converted to binary and then written to file
+            var stream = new FileStream(path + ".mid", FileMode.Create, FileAccess.ReadWrite);
+            var twoCharacters = new StringBuilder(); // two bytes are used for every conversion (16 bits - two hex numbers)
+            var singleByte = new byte[1]; // two binary bytes to which the hex numbers will be converted
+            foreach (var character in file)
+            {
+                twoCharacters.Append(character); // adding one hex character to the 16-bit variable
+                if (twoCharacters.Length == 2) // added two characters - reached 16 bits
+                {
+                    singleByte[0] = (byte)Convert.ToByte(twoCharacters.ToString(), 16); // conversion from hex to bin
+                    stream.Write(singleByte, 0, 1); // writing bin to file
+                    twoCharacters.Clear(); // starting over again with new characters
+                }
+            }
+            stream.Close();
+        }
+\end{lstlisting}
+
+\subsection{Aplikacija za pretvaranje slika u boji u zvučni sadržaj}
+
+\% Nejrin dio
+
+\newpage
+
+\section{Zaključak}
+
+Razvoj tehnologije omogućio je jednostavnu i brzu manipulaciju multimedijalnim sadržajima. Postoji veliki broj različitih formata slika te gotovih programskih rješenja i biblioteka koje omogućavaju njihovu analizu, izmjenu ili ekstrakciju onih dijelova koji su važni za određenu primjenu. S druge strane, iako je obrada zvukom manje popularna, postoji veliki broj audio formata koji omogućavaju tretiranje zvuka na različite načine, kompresiju ili kreiranje potpuno vještačkih zvučnih signala, što također može biti korisno i od velike pomoći za različite primjene. Najvažnije je omogućavanje izvršavanja svih ovih obrada \textbf{u realnom vremenu}, što otvara vrata velikom broju mogućnosti. \\
+
+Jedna od takvih mogućnosti je učitavanje slike, njeno razlaganje na \textit{color channels} te njihovo pretvaranje u audio \textit{file} koji je moguće reproducirati gotovo odmah. Na ovaj način omogućava se da boje, koje neki ljudi nisu u stanju vidjeti, budu pretvorene u karakterističnu frekvenciju koja, na isti način kao što oko prepoznaje karakteristične boje, bude prepoznata od strane slušnog sistema. Na ovaj način moguće je ukloniti prepreku koju predstavlja \textbf{nemogućnost viđenja boja}, odnosno omogućiti ljudima koji nisu u stanju da razlikuju boje (daltonizam) ili koji vide samo nijanse sive boje (ahromatopsija) da \textbf{''čuju'' boje}, odnosno da razlikuju boje na osnovu različite frekvencije zvuka koja se proizvodi na osnovu mapiranja boja u muzičke tonove. \\
+
+Naravno, ovakav sistem nije savršen, jer postoji na milione različitih nijansi koje je ljudsko oko u stanju razlikovati, dok postoji samo 128 različitih muzičkih tonova, čime se većina nijansi zapravo \textbf{aproksimira} u jednu od karakterističnih frekvencija. Ovo je posljedica činjenice da vidni i čulni sistemi ne funkcionišu na isti način: u bazelarnoj membrani dolazi do pojave \textbf{frekvencijskog maskiranja}, pri čemu se bliske frekvencije detektuju kao jedna, što predstavlja jednu vrstu aproksimacije \cite{shupi}. Iz ovog razloga i postoji samo 128 različitih muzičkih tonova, zbog čega se nameće zaključak da je vršenje aproksimacija \textbf{neizbježno} pri mapiranju boja u frekvencije zvuka. \\
+
+Iako je potpuno preslikavanje skupa boja u skup zvukova nemoguće, preslikavanje 128 boja je ipak dovoljno detaljan postupak kako bi se stvorio osjećaj razlikovanja boja. Na ovaj način omogućava se pojava \textbf{sinestezije}, odnosno nakon određenog vremena korištenja sistema za pretvaranje slika u boji u zvukove, ljudski čulni sistem koji nije u mogućnosti razlikovati boje početi će vršiti automatsku identifikaciju boja koje ne vidi na osnovu zvuka koji čuje. Omogućavanje viđenja boja i u slučaju kada je čulni organ oštećen ili defektan, bez obzira s kolikom aproksimacijom, veliki je uspjeh, jer može predstavljati veliku pomoć ljudima koji nisu u stanju razlikovati ili vidjeti boje, a za realizaciju ovakvog sistema nisu potrebne velike sume novca niti komplikovani postupci.
+
+\newpage
+
+\bibliographystyle{IEEEtran}
+\bibliography{bibliography}
+
+\end{document}
