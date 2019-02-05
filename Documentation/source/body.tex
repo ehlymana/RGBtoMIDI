@@ -66,13 +66,84 @@ U ovu svrhu potrebno je definisati tri glavne faze konverzije:
 
 U nastavku će biti detaljno objašnjene sve faze konverzije, odnosno način ekstrakcije boja iz slike, njihovog mapiranja u različite frekvencije zvuka (koje će predstavljati način razlikovanja boja) te spajanja različitih boja u jedinstven audio \textit{file} koji će zatim biti moguće reproducirati te na taj način putem slušnog organa omogućiti identifikaciju različitih boja.
 
-\subsection{Rastavljanje RGB slika na \textit{color channels}}
+\subsection{Modeli boja}
 
-\% Belmin dio
+Model boja je način da se predstavi boja, bilo na ekranima ili prilikom printanja \cite{bels1}, tako što se kombinuje skup primarnih boja. Postoje razni modeli, no neki od najznačajnijih su \cite{bels2}:
+
+\begin{itemize}
+
+\item RGB (\textit{Red, Green, Blue});
+\item CMYK (\textit{Cyan, Magenta, Yellow, Black});
+\item \textit{Grayscale};
+\item HSV (\textit{Hue, Saturation, Value}).
+
+\end{itemize}
+
+\subsubsection{RGB model boja}
+
+Ovaj model se koristi prilikom prikaza slike na ekranima, te se još naziva i \textbf{aditivnim modelom} jer koristi svjetlost da se prikaže boja \cite{bels2}. Slika se sastoji od tri kanala boja (\textit{color channels}) čije vrijednosti se kreću od 0 do 255 uključivo: crvena, zelena i plava. Kada svi kanali imaju vrijednost 0, tada se kreira crna boja, a kada su vrijednosti 255, tada se kreira bijela boja. ''Čista'' plava/crvena/zelena boja nastaje kada se vrijednosti ostale dvije boje postave na 0, vrijednost čiste boje na 255, dok se ostali spektar boja dobija kombinacijom ove tri boje \cite{bels1}. Kao rezultat, moguće je predstaviti \textbf{16.7 miliona različitih boja} \cite{bels2} ovim modelom. \\
+
+Prikaz RGB slike na digitalnim ekranima se vrši uz pomoć \textbf{tri odgovarajuće obojene svjetlosne zrake} koje je potrebno ''preklopiti'' (\textit{superimpose}) jednu preko druge. Kada nijedna zraka nema intenzitet, onda se kreira crna boja, dok puni intenzitet sve tri boje kreira bijelu boju (analogno numeričkim vrijednostima) \cite{bels2}. Na Slici \ref{rgb} prikazan je dijagram RGB modela.
+
+\begin{figure}[H]
+
+\center
+\includegraphics[scale=0.75]{../res/rgb.png}
+\caption{RGB model boja \cite{bels3}}
+\label{rgb}
+
+\end{figure}
+
+\subsubsection{CMYK model boja}
+
+Za razliku od RGB modela, ovaj model je \textbf{subtraktivni model}, kako koristi grafičke boje za prikaz, što ga čini pogodnim za printanje. Kanali koji čine ovaj model jesu cijan, purpurno crvena, žuta, te crna, i koriste se tako što se na bijelu pozadinu ''maskiraju'' boje, te se tako smanjuje svjetlost koja se reflektuje, zbog čega se i naziva subtraktivnim modelom. Crna se uvodi jer mješavina ostale tri boje ne daje čistu crnu boju \cite{bels2}, a na Slici \ref	{cmyk} prikazan je dijagram ovog modela.
+
+\begin{figure}[H]
+
+\center
+\includegraphics[scale=0.75]{../res/cmyk.PNG}
+\caption{CMYK model boja \cite{bels4}}
+\label{cmyk}
+
+\end{figure}
+
+\subsubsection{\textit{Grayscale} model boja}
+
+\textit{Grayscale} slika jeste slika koja sadrži samo nijanse sive boje, dakle ovaj model ima \textbf{samo jedan kanal} koji nosi informaciju o intenzitetu piksela. Slično kao kod RGB modela, vrijednost 0 predstavlja crnu boju, dok vrijednost 255 daje bijelu boju \cite{bels2}.
+
+\subsubsection{HSV model boja}
+
+HSV predstavlja trodimenzionalni model boja koji opisuje odnose između boja, te koji se sastoji od tri kanala: \textbf{nijansa}, \textbf{zasićenost} i \textbf{vrijednost}. Na Slici \ref{hsv} nalazi se 3D prikaz ovog modela, gdje je očito da centar točka predstavlja bijelu boju, krajevi predstavljaju crnu boju, dok se ostale boje nalaze između. Ugao od ose predstavlja nijansu (što znači da vrijednosti idu od 0 do 360), udaljenost od ose predstavlja zasićenost boje, dok je nijasnsa predstavljena udaljenošću duž ose. Vrijedi napomenuti da pored HSV modela postoji i \textbf{HSL model}, gdje se umjesto nijanse nalazi količina svjetlosti boje \cite{bels2}.
+
+\begin{figure}[H]
+
+\center
+\includegraphics[scale=0.2]{../res/hsv.png}
+\caption{HSV model boja \cite{bels5}}
+\label{hsv}
+
+\end{figure}
 
 \subsection{Mapiranje pojedinih boja u frekvencije zvuka}
 
-\% Nejrin dio
+Sve pojave i događaji u prirodi uspješno se mogu opisati zakonima fizike, a usku vezu sa ovim zakonima dijele boje i zvukovi. Kao što je već rečeno, boje i zvukovi predstavljaju veoma bitne faktore koji djeluju na proces percepcije okoline od strane posmatrača. Iako svaki doživljaj okoline predstavlja subjektivnu pojavu, razvijene su mnoge metode korištene za analizu i manipulaciju ovim faktorima u cilju proučavanja procesa u kojem određeno živo biće sa čulima sluha i vidi percipira svoju okolinu. \\
+
+U svrhu proučavanja ovih faktora i njihovog udjela u procesu percepcije, neophodno je bilo pronaći način na koji se oni predstavljaju. Poznato je da se i zvuk i boja mogu predstaviti \textbf{odgovarajućim frekvencijama} i upravo su proučavanjem ovih frekvencija izvedene mnoge analize i pronađena rješenja koja olakšavaju percepciju pojedincima sa oslabljenim čulom sluha ili vida. U ovom radu fokus je stavljen na način na koji se određena slika, koja se sastoji od određenog broja piksela, pretvara u zvučni sadržaj.  \\
+
+Ovaj proces konverzije temelji se na predstavljanju boja od kojih je sastavljena posmatrana slika preko nekog od modela boja koji su opisani u prethodnom poglavlju. Nakon toga se vrši mapiranje odabranog modela u odgovarajuću zvučnu frekvenciju. U ovu svrhu, najčešće se koristi \textbf{HSV model boja} iz prostog razloga što predstavlja boje koje su najsličnije percepciji ljudskog oka. Kao što je već rečeno, HSV model boja se sastoji od tri kanala: \textit{Hue}, koji opisuje nijansu, \textit{Saturation}, koji opisuje zasićenost, te \textit{Value}, koji opisuje vrijednost. Na osnovu ovoga određen je način na koji se \textbf{svaki od ovih kanala mapira u odgovarajuću zvučnu karakteristiku}, što je prikazano na Slici \ref{HSVtoSound} \cite{n1}.
+
+\begin{figure}[H]
+
+\center
+\includegraphics[scale=0.6]{../res/HSVtoSound.PNG}
+\caption{Preslikavanje HSV modela boja u zvučne parametre \cite{n4}}
+\label{HSVtoSound}
+
+\end{figure}
+
+Nijansa (\textit{Hue}) boje određuje količinu proizvedenih vibracija, odnosno \textbf{frekvenciju zvuka} (\textit{pitch}). Zasićenost (\textit{Saturation}) određuje \textbf{kvalitetu zvuka} (\textit{timbre}), dok je vrijednost (\textit{Value}) vezana za predstavljanje \textbf{jačine zvuka} (\textit{volume}). Četvrti parametar prikazan na Slici \ref{HSVtoSound} predstavlja horizontalne koordinate piksela koje se u ovom procesu konverzije preslikavaju u poziciju koja simulira položaj zvučnog izvora u horizontalnoj ravni. Na ovaj način se nastoji osigurati da se promjenom kanala boja u određenom smjeru, mijenja frekvencija zvuka, kvalitet kao i jačina zvuka, te time \textbf{preslikati percepciju} kojom ljudi povezuju zvuk sa određenim bojama \cite{n2}. \\
+
+Veza između boje i zvuka oduvijek je bila zanimljiva tema istraživanja mnogim filozofima i naučnicima, a jedan od njih je i \textbf{Isaac Newton} \cite{n3}. U ovom radu će biti prikazan jedan način implementacije preslikavanja kanala boja u odgovarajuće zvučne parametre.
 
 \subsection{Kreiranje zvučnog sadržaja na osnovu boja}
 
@@ -85,8 +156,8 @@ Prema Nyquistovom teoremu o uzorkovanju, frekvencija uzorkovanja signala mora bi
 \begin{figure}[H]
 
 \center
-\includegraphics[scale=0.5]{../res/audioQualities.png}
-\caption{Odnos količine podataka s frekvencijom uzorkovanja audio signala \cite{dat}}
+\includegraphics[scale=0.35]{../res/audioQualities.png}
+\caption{Odnos količine podataka i frekvencije uzorkovanja audio signala \cite{dat}}
 \label{audioQualities}
 
 \end{figure}
@@ -108,10 +179,10 @@ U Tabeli \ref{TMIDI} prikazana je struktura kompletnog MIDI \textit{file}-a, o k
 \begin{table}[H]
 \centering
 \begin{tabular}{ | b b b b b | f f | e e |}
-\hline
-\rowcolor{gray}
-\multicolumn{5}{| c |}{\textit{MIDI Header}	}				& \multicolumn{2}{ c |}{\textit{Track Header}}		& \multicolumn{2}{ c |}{\textit{Track Data}}			\\ \hline
-4D 54 68 64	& 00 00 00 06 & 00 XX & D & E 				& 4D 54 72 6B 	& G								& [...] 	& 00 FF 2F 00								\\ \hline
+\hhline{---------}
+\rowcolor{grey}
+\multicolumn{5}{| c |}{\textit{MIDI Header}	}				& \multicolumn{2}{ c |}{\textit{Track Header}}		& \multicolumn{2}{ c |}{\textit{Track Data}}		\tabularnewline \hhline{-----|--|--}
+4D 54 68 64	& 00 00 00 06 & 00 XX & D & E 				& 4D 54 72 6B 	& G								& [...] 	& 00 FF 2F 00							\tabularnewline \hhline{-----|--|--}
 \end{tabular}
 \caption{Struktura MIDI \textit{file}-a}
 \label{TMIDI}
@@ -139,10 +210,10 @@ U Tabeli \ref{MHeader} prikazana je struktura ovog dijela MIDI \textit{file}-ova
 \begin{table}[H]
 \centering
 \begin{tabular}{ | a a a a | b b b b | d d | e e | f f |}
-\hline
-\rowcolor{gray}
-\multicolumn{4}{| c |} A 				& \multicolumn{4}{c |} B 				& \multicolumn{2}{c |} C 		& \multicolumn{2}{c |} D 		& \multicolumn{2}{c |} E 		\\ \hline
-4D 	& 54	& 68	& 64			& 00	& 00	& 00	& 06		& 00	& XX 				& YY	& YY				& ZZ	& ZZ				\\ \hline
+\hhline{--------------}
+\rowcolor{grey}
+\multicolumn{4}{| c |} A 				& \multicolumn{4}{c |} B 				& \multicolumn{2}{c |} C 		& \multicolumn{2}{c |} D 		& \multicolumn{2}{c |} E 	\tabularnewline \hhline{----|----|--|--|--}
+4D 	& 54	& 68	& 64			& 00	& 00	& 00	& 06		& 00	& XX 				& YY	& YY				& ZZ	& ZZ			\tabularnewline \hhline{----|----|--|--|--}
 \end{tabular}
 \caption{Struktura MIDI \textit{header}-a}
 \label{MHeader}
@@ -162,11 +233,11 @@ U Tabeli \ref{THeader} prikazana je struktura ovog dijela MIDI \textit{file}-ova
 
 \begin{table}[H]
 \centering
-\begin{tabular}{ | e e e e | a a a a |}
-\hline
-\rowcolor{gray}
-\multicolumn{4}{| c |} F 				& \multicolumn{4}{c |} G 				\\ \hline
-4D 	& 54	& 72	& 6B			& XX	& XX	& XX	& XX		\\ \hline
+\begin{tabular}{ | e e e e | b b b b |}
+\hhline{--------}
+\rowcolor{grey}
+\multicolumn{4}{| c |} F 				& \multicolumn{4}{c |} G 				\tabularnewline \hhline{----|----}
+4D 	& 54	& 72	& 6B			& XX	& XX	& XX	& XX		\tabularnewline \hhline{----|----}
 \end{tabular}
 \caption{Struktura \textit{track header}-a}
 \label{THeader}
@@ -193,10 +264,10 @@ U Tabeli \ref{TData} prikazana je struktura ovog dijela MIDI \textit{file}-ova.
 \begin{table}[H]
 \centering
 \begin{tabular}{ | b b | e f | d | a |}
-\hline
-\rowcolor{gray}
-\multicolumn{2}{| c |}{Timestamp}			& \multicolumn{2}{ c |}{Status}				& Pitch		& Volume 				\\ \hline
-[...] 	& XX								& Y		& Z									& AA		& BB					\\ \hline
+\hhline{------}
+\rowcolor{grey}
+\multicolumn{2}{| c |}{\textit{Timestamp}}			& \multicolumn{2}{ c |}{\textit{Status}}				& \textit{Pitch}		& \textit{Volume} 				\tabularnewline \hhline{--|--|-|-}
+[...] 	& XX									& Y		& Z											& AA				& BB							\tabularnewline \hhline{--|--|-|-}
 \end{tabular}
 \caption{Struktura pojedinih tonova}
 \label{TData}
@@ -205,16 +276,16 @@ U Tabeli \ref{TData} prikazana je struktura ovog dijela MIDI \textit{file}-ova.
 \begin{table}[H]
 \centering
 \begin{tabular}{| P{2.5 cm} | c |}
-\hline
-\rowcolor{gray}
-Statusni bit 		& Značenje											\\ \hline
-8				& Ugasi ton											\\ \hline
-9				& Upali ton											\\ \hline
-A 				& Pritisak tipke instrumenta (\textit{AfterTouch})			\\ \hline
-B 				& Kontroler (simulacija fizičkih osobina uređaja) \cite{dat}	\\ \hline
-C 				& Promjena programa (simulacija efekata) \cite{dat}		\\ \hline
-D 				& Jačina pritiska na tipku								\\ \hline
-E 				& Visina tona											\\ \hline
+\hhline{--}
+\rowcolor{grey}
+Statusni bit 		& Značenje											\tabularnewline \hhline{-|-}
+8				& Ugasi ton											\tabularnewline \hhline{-|-}
+9				& Upali ton											\tabularnewline \hhline{-|-}
+A 				& Pritisak tipke instrumenta (\textit{AfterTouch})			\tabularnewline \hhline{-|-}
+B 				& Kontroler (simulacija fizičkih osobina uređaja) \cite{dat}	\tabularnewline \hhline{-|-}
+C 				& Promjena programa (simulacija efekata) \cite{dat}		\tabularnewline \hhline{-|-}
+D 				& Jačina pritiska na tipku								\tabularnewline \hhline{-|-}
+E 				& Visina tona											\tabularnewline \hhline{-|-}
 \end{tabular}
 \caption{Moguće vrijednosti statusnih bita}
 \label{status}
@@ -237,10 +308,10 @@ U Tabeli \ref{TMetadata} prikazana je struktura ovog dijela MIDI \textit{file}-o
 \begin{table}[H]
 \centering
 \begin{tabular}{ | f | d | a | b |}
-\hline
-\rowcolor{gray}
-1			& 2				& 3			& 4 				\\ \hline
-FF 			& XX			& YY		& [...]			\\ \hline
+\hhline{----}
+\rowcolor{grey}
+1			& 2				& 3			& 4 				\tabularnewline \hhline{-|-|-|-}
+FF 			& XX			& YY		& [...]			\tabularnewline \hhline{-|-|-|-}
 \end{tabular}
 \caption{Struktura \textit{meta event}-a}
 \label{TMetadata}
@@ -254,7 +325,88 @@ FF 			& XX			& YY		& [...]			\\ \hline
 
 \subsection{Manipulacija slikom}
 
-\% Belmin dio
+Za svrhu pretvaranja boje u odgovarajući ton, kreirane su dvije funkcije: \texttt{toNormalizedHue}, te \texttt{imageToSound}, koje obje kao parametar primaju putanju do željene slike. Funkcija \texttt{toNorma- lizedHue} prikazana u Listingu \ref{image1} pretvara odabranu sliku u niz \textbf{pogodan za biranje tona boje}, koji je opisan u narednim poglavljima. Kako je potrebno vrijednosti piksela pretvoriti u cjelobrojne vrijednosti u intervalu [0,128), korišten je \textbf{HSV model}, tačnije, kanal nijanse (\textit{hue}), koji je potom skaliran. Bitno je napomenuti da RGB model \textbf{nije korišten} zbog kompleksnosti mapiranja boja u dati interval, te da se sa \textit{grayscale} slikama gubi smisao pretvaranja boje u zvuk. \\
+~\\
+Kako će veće slike rezultirati većim audio zapisom, korištena je ideja dobivena iz \textbf{DCT algoritma}: \underline{blokovi slike su kodirani u jedinstvenu notu}, tako što se uzela prosječna vrijednost piksela. Ovisno od veličine slike, vrijednosti varijable \texttt{factor}, koja predstavlja veličinu bloka, variraju \textbf{od 8 do 64}. Nakon računanja prosječne vrijednosti blokova, podaci su kopirani u odgovarajući tip, te se šalju na dalje procesiranje.
+
+\begin{lstlisting}[language={[Sharp]C}, caption={Funkcija \texttt{toNormalizedHue} za pretvaranje boja u tonove}, label={image1}]
+//helper function to turn image to normalized hue
+static int[,] toNormalizedHue(string path) //path to image
+{
+		Bitmap bitmap = new Bitmap(path); //load image
+		int width = bitmap.Width;
+		int height = bitmap.Height;
+		int[,] note = new int[height, width]; //all of the values [0,128) will  be stored here
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+				Color pixel = bitmap.GetPixel(j, i);
+                   		float hue = pixel.GetHue(); //get Hue of pixel
+                   		hue = hue * 127F / 360F; //normalise to [0,128)
+                   		note[i, j] = (int)(Math.Floor(hue)); //round to int
+			}
+		}
+		//since large images will produce longer audio files, the factor variable is introduced
+		//similar to DCT, we will use blocks of the image to shorten the audio file
+		//bigger images will have a bigger factor
+		List<List<int>> notes = new List<List<int>>();
+		int factor = 8;
+		if (width > 2500 || height > 2500) {
+			factor = 64;
+		}
+		else if (width > 1500 || height > 1500) {
+			factor = 32;
+		}
+		else if (width > 1000 || height > 1000) {
+			factor = 16;
+		}
+		//calculating average normalized hue value for blocks size (factor x factor)
+		for (int i = 0; i < height; i += factor) {
+			List<int> temp = new List<int>();
+			for (int j = 0; j < width; j += factor) {
+				double sum = 0;
+     //total is kept track of since it is possible that a whole block would not fit in (instead of padding the image)
+                    	int total = 0;
+                    	for (int k = i; k < i + factor && k < height; k++) {
+					for (int l = j; l < j + factor && l < width; l++) {
+						sum += note[k, l];
+						total++;
+					}
+                    	}
+                    	temp.Add((int)(Math.Floor(sum / total)) + 1);
+                    	sum = 0;
+                    	total = 0;
+			}	
+			notes.Add(temp);
+		}
+		//copying to the needed return type
+		int[,] returnNote = new int[notes.Count, notes[0].Count];
+		for (int i = 0; i < returnNote.GetLength(0); i++) {
+			for (int j = 0; j < returnNote.GetLength(1); j++) {
+				returnNote[i, j] = notes[i][j];
+			}
+		}
+		return returnNote;
+}
+\end{lstlisting}
+~\\
+Funkcija \texttt{imageToSound} prikazana u Listingu \ref{image2} pretvara odabranu sliku u zvučni zapis uz pomoć klase \texttt{MIDIFIle} opisane u nastavku. Nakon što se pozove \texttt{toNormalizedHue}, dobiveni dvodimenzionalni niz \textbf{dodaje za svaki piksel notu} metodom \texttt{addNote}, nakon čega se kreira audio zapis uz pomoć metode \texttt{createMIDIFile} (u nastavku su objašnjene pomenute metode).
+
+\begin{lstlisting}[language={[Sharp]C}, caption={Funkcija \texttt{imageToSound} za kreiranje audio \textit{file}-a}, label={image2}]
+static void imageToSound(string path) //path to image
+{
+            MIDIFile m = new MIDIFile();
+            int[,] note = toNormalizedHue(path);
+            m.setVolume(127);
+            for (int i = 0; i < note.GetLength(0); i++) {
+                for (int j = 0; j < note.GetLength(1); j++) {
+                    m.addNote(note[i, j]); //create MIDI file of notes acquired from the hue channel of the image
+                }
+            }
+            m.createMIDIFile("test"); //create MIDI file
+}
+\end{lstlisting}
+
+\newpage
 
 \subsection{Manipulacija zvukom}
 
@@ -331,7 +483,107 @@ Nakon dodavanja svih željenih tonova, potrebno je kreirati \textit{.mid file} k
 
 \subsection{Aplikacija za pretvaranje slika u boji u zvučni sadržaj}
 
-\% Nejrin dio
+Nakon što su analizirani, opisani i implementirani pojedinačni dijelovi manipulacije nad slikom i zvukom, u ovom dijelu će biti opisano povezivanje svih komponenti u \textbf{jednu cjelinu} koju čini \textit{desktop} aplikacija. Aplikacija je implementirana upotrebom \textit{Windows Forms} projekta u okviru \textit{Visual Studio} razvojnog okruženja. \\
+Implementirano rješenje sastoji se od \textbf{dva projekta}, kako je prikazano u \textit{Visual Studio Solution Explorer}-u na Slici \ref{solution}.
+
+\begin{figure}[H]
+
+\center
+\includegraphics[scale=0.7]{../res/solution.png}
+\caption{Projekti od kojih se aplikacija sastoji}
+\label{solution}
+
+\end{figure}
+
+Prvi projekat pod nazivom \textbf{\texttt{MIDI}} predstavlja biblioteku klasa (\textit{Class Library}) i sastoji se od metoda pomoću kojih se dodaju note te kreira odgovarajući MIDI \textit{file}. Drugi projekat je \textbf{\textit{Windows Forms} projekat} u kojem je dizajniran izgled aplikacije i implementirana logika upravljanja korisničkim kontrolama. Na Slici \ref{app} prikazan je izgled aplikacije.
+
+\begin{figure}[H]
+
+\center
+\includegraphics[scale=0.65]{../res/app.png}
+\caption{Izgled aplikacije}
+\label{app}
+
+\end{figure}
+
+Nakon pokretanja aplikacije, korisniku se otvara forma sa odgovarajućim korisničkim kontrolama. Klikom na dugme \textit{Load Image}, korisniku je omogućen \textbf{odabir željene slike za konverziju}. Nakon učitavanja slike, klikom na dugme \textit{Convert} vrši se \textbf{konverzija odabrane slike u MIDI \textit{file}}, pri čemu je putanja do kreirane datoteke prikazana u tekst polju na aplikaciji. \\
+
+Ako je konverzija uspješno završena, korisniku se omogućava \textbf{učitavanje kreiranog \textit{file}-a}. Kreirani MIDI \textit{file} se može reproducirati u samoj aplikaciji pomoću \textit{Windows Media Player} korisničke kontrole. Dok se vrši konverzija, moguće je pratiti progres napretka pomoću \textit{Progress Bar} korisničke kontrole. Progres pri konverziji nakon odabira slike, kao i putanja \textit{file}-a u koji će se konverzija snimiti prikazani su na Slici \ref{workingApp}.
+
+\begin{figure}[H]
+
+\center
+\includegraphics[scale=0.95]{../res/workingApp.PNG}
+\caption{Izgled aplikacije tokom izvršavanja procesa konverzije}
+\label{workingApp}
+
+\end{figure}
+
+Pored osnovne implementacije upravljanja događajima na korisničkim kontrolama, za ovaj rad su od najvećeg značaja dijelovi implementacije aplikacije vezani za \textbf{objedinjavanje implementiranih komponenti u jednu cjelinu}. Ti događaji se dešavaju klikom na dugme za konverziju i reproduciranjem \textit{file}-a. \\
+
+U Listingu \ref{APPconvert} prikazano je upravljanje klikom na dugme \textit{Convert}. Dakle, postavljaju se odgovarajuće vrijednosti za \textit{Progress Bar} kontrolu, te se poziva \textbf{odgovarajuća nit} koja obavlja konverziju odabrane slike u MIDI \textit{file}.
+
+\begin{lstlisting}[language={[Sharp]C}, caption={Pokretanje konverzije slike u audio \textit{file}}, label={APPconvert}]
+private void buttonConvert_Click(object sender, EventArgs e)
+        {
+            progressBar1.Maximum = 100;
+            progressBar1.Step = 1;
+            progressBar1.Value = 0;
+            backgroundWorker1.RunWorkerAsync();
+        }
+\end{lstlisting}
+~\\
+
+U Listingu \ref{APPbackground} prikazane su ostale operacije vezane za pokretanje niti za konverziju slike, pozivanje metode za pomenutu konverziju koja je opisana u jednom od prethodnih poglavlja, kao i ažuriranje \textit{Progress Bar}-a i korisničkih kontrola kada se konverzija završi.
+
+\begin{lstlisting}[language={[Sharp]C}, caption={Vršenje konverzije u zasebnoj niti}, label={APPbackground}]
+//turn hue to sound
+        private void backgroundWorker1_DoWork_1(object sender, DoWorkEventArgs e)
+        {
+            var backgroundWorker = sender as BackgroundWorker;
+            MIDIFile m = new MIDIFile();
+            int[,] note = toNormalizedHue(imagePath);
+            m.setVolume(127);
+            int noOfSteps = note.GetLength(0) * note.GetLength(1);
+            int reportProgressStep = noOfSteps / 100 + 1;
+            int step = 0;
+            for (int i = 0; i < note.GetLength(0); i++)  {
+                for (int j = 0; j < note.GetLength(1); j++) {
+                    m.addNote(note[i, j]); //create MIDI file of notes acquired from the hue channel of the image
+                    step++;
+                    if (step \% reportProgressStep == 0) backgroundWorker.ReportProgress(step / reportProgressStep);
+                }
+            }
+            m.createMIDIFile("test"); //create MIDI file
+            backgroundWorker.ReportProgress(100);
+            musicFilePath = Directory.GetCurrentDirectory() + "\\test.mid";
+        }
+
+        private void backgroundWorker1_ProgressChanged_1(object sender, ProgressChangedEventArgs e)
+        {
+            progressBar1.Value = e.ProgressPercentage;
+        }
+
+        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            textBox1.Text = musicFilePath;
+            string x = textBox1.Text;
+        }
+    }
+\end{lstlisting}
+~\\
+
+Nakon što se \textit{file} uspješno kreira, implementacija koja omogućava njegovo pokretanje prikazana je u Listingu \ref{APPwmp}.
+
+\begin{lstlisting}[language={[Sharp]C}, caption={Pokretanje reprodukcije MIDI \textit{file}-a}, label={APPwmp}]
+private void axWindowsMediaPlayerPlay_Enter(object sender, EventArgs e)
+        {
+            axWindowsMediaPlayerPlay.URL = musicFilePath;
+        }
+\end{lstlisting}
+~\\
+
+Dakle, implementirana \textit{desktop} aplikacija spaja dijelove implementacije u jednu cjelinu i na jednostavan način omogućava pokretanje tih dijelova i prikaz rezultata njihovog rada. Cijela implementacija dostupna je na linku: \href{https://github.com/ehlymana/RGBtoMIDI}{https://github.com/ehlymana/RGBtoMIDI}.
 
 \newpage
 

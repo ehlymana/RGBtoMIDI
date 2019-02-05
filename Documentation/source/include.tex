@@ -12,6 +12,11 @@
 \usepackage{xcolor}
 \usepackage{colortbl}
 \usepackage{color}
+\usepackage{hyperref}
+\usepackage{ctable}
+\usepackage{array}
+\usepackage{hhline}
+\usepackage{caption}
 
 \lstloadlanguages{C,C++,csh,Java}
 
@@ -19,7 +24,13 @@
 \definecolor{blue}{rgb}{0,0,0.6}
 \definecolor{green}{rgb}{0,0.8,0}
 \definecolor{cyan}{rgb}{0.0,0.6,0.6}
-\definecolor{cloudwhite}{rgb}{0.9412, 0.9608, 0.8471}
+\definecolor{magnolia}{rgb}{0.97, 0.96, 1.0}
+\definecolor{colora}{rgb}{0.67, 0.8, 0.94}
+\definecolor{colorb}{rgb}{0.67, 0.94, 0.82}
+\definecolor{colord}{rgb}{0.67, 0.9, 0.93}
+\definecolor{colore}{rgb}{0.6, 0.73, 0.89}
+\definecolor{colorf}{rgb}{0.61, 0.87, 1.0}
+\definecolor{grey}{rgb}{0.75, 0.75, 0.75}
 
 \lstset{
 language=csh,
@@ -64,17 +75,17 @@ else, long, static,
 enum, namespace, string},
 keywordstyle=\color{cyan},
 identifierstyle=\color{red},
-backgroundcolor=\color{cloudwhite},
+backgroundcolor=\color{magnolia},
 }
 
-\usepackage{caption}
 \DeclareCaptionFont{white}{\color{white}}
 \DeclareCaptionFormat{listing}{\colorbox{blue}{\parbox{\textwidth}{\hspace{15pt}#1#2#3}}}
 \captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white, singlelinecheck=false, margin=0pt, font={bf,footnotesize}}
 
-\newcolumntype{a}{>{\columncolor{green}}c}
-\newcolumntype{b}{>{\columncolor{lime}}c}
-\newcolumntype{d}{>{\columncolor{teal}}c}
-\newcolumntype{e}{>{\columncolor{cyan}}c}
-\newcolumntype{f}{>{\columncolor{violet}}c}
+\newcolumntype{a}{>{\columncolor{colora}}c}
+\newcolumntype{b}{>{\columncolor{colorb}}c}
+\newcolumntype{d}{>{\columncolor{colord}}c}
+\newcolumntype{e}{>{\columncolor{colore}}c}
+\newcolumntype{f}{>{\columncolor{colorf}}c}
 \newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{?}{!{\vrule width 1pt}}
