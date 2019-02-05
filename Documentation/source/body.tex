@@ -8,7 +8,7 @@
 
 \section*{Definicija Zadatka}
 
-U ovom radu opisan je postupak pretvaranja RGB slika u zvučni sadržaj. U ovu svrhu prvo je neophodno izdvojiti boje iz slike (budući da se rezultujuće zvučne datoteke razlikuju na osnovu različitog udjela boja u RGB slici), zatim je potrebno na adekvatan način dodijeliti određeni ton (od mogućih 128) nijansama boja, te kreirati zvučnu datoteku u \textit{.mid} formatu. Kako bi se ovaj postupak demonstrirao, napravljena je \textit{Windows Forms} aplikacija koristeći programski jezik \texttt{C\#}, koja korisnicima omogućava odabir slike u boji za konverziju, pokretanje postupka konverzije te puštanje rezultujućeg zvučnog sadržaja. \\
+U ovom radu opisan je postupak pretvaranja slika u boji u zvučni sadržaj. U ovu svrhu prvo je neophodno izdvojiti boje iz slike (budući da se rezultujuće zvučne datoteke razlikuju na osnovu različitog udjela boja u slici), zatim je potrebno na adekvatan način dodijeliti određeni ton (od mogućih 128) nijansama boja, te kreirati zvučnu datoteku u \textit{.mid} formatu. Kako bi se ovaj postupak demonstrirao, napravljena je \textit{Windows Forms} aplikacija koristeći programski jezik \texttt{C\#}, koja korisnicima omogućava odabir slike u boji za konverziju, pokretanje postupka konverzije te puštanje rezultujućeg zvučnog sadržaja. \\
 
 U radu su detaljno opisane sve faze konverzije, uključujući razlaganje slike na \textit{color channels}, mapiranje različitih boja u karakteristične frekvencije zvuka (tonove), odabir audio formata koji je najpogodniji za ovakvu konverziju te sam postupak kreiranja audio \textit{file}-ova u odabranom formatu. Opisan je način implementacije aplikacije koja vrši konverziju, odnosno način na koji se slika razlaže na \textit{color channels}, boje dodjeljuju frekvencijama, te date frekvencije koriste kako bi se kreirao audio \textit{file} koji korisnici zatim mogu slušati. \\
 
@@ -52,7 +52,7 @@ Na kraju je opisan značaj ovakvog postupka, odnosno njegova moguća primjena u 
 
 \subsection{Postavka problema}
 
-Problem koji će biti riješen u okviru ovog rada je pronalazak načina da se premosti prepreka koju predstavlja nemogućnost viđenja ili razlikovanja boja. Budući da osobe koji nisu u stanju razlikovati ili vidjeti boje vide slike u boji kao da su \textit{grayscale}, neophodno je izvršiti ekstrakciju onih elemenata koje oni ne vide - boje - te njihovu konverziju u sadržaj koji će moći razlikovati, što je u najvećem broju slučajeva zvuk. Iz tog razloga izvršiti će se postupak konverzije RGB slika u zvučni sadržaj. \\
+Problem koji će biti riješen u okviru ovog rada je pronalazak načina da se premosti prepreka koju predstavlja nemogućnost viđenja ili razlikovanja boja. Budući da osobe koji nisu u stanju razlikovati ili vidjeti boje vide slike u boji kao da su \textit{grayscale}, neophodno je izvršiti ekstrakciju onih elemenata koje oni ne vide - boje - te njihovu konverziju u sadržaj koji će moći razlikovati, što je u najvećem broju slučajeva zvuk. Iz tog razloga izvršiti će se postupak konverzije slika u boji u zvučni sadržaj. \\
 
 U ovu svrhu potrebno je definisati tri glavne faze konverzije:
 
@@ -410,7 +410,7 @@ static void imageToSound(string path) //path to image
 
 \subsection{Manipulacija zvukom}
 
-Treća faza konverzije RGB slika u zvuk je \textbf{kreiranje MIDI \textit{file}-a} s tonovima koji predstavljaju odgovarajuće boje od kojih se slika sastoji. Kako bi se to omogućilo, kreirana je klasa \texttt{MIDIFile}, čiji atributi predstavljaju pojedine dijelove MIDI \textit{file}-a koji se sukcesivno kreira, odnosno koji ima predefinisane dijelove (\textit{header} dijelove), a dio koji se odnosi na same podatke (tj. tonove) inicijalno je prazan. Atributi klase \texttt{MIDIFile} prikazani su u Listingu \ref{MIDIclass}.
+Treća faza konverzije slika u boji u zvuk je \textbf{kreiranje MIDI \textit{file}-a} s tonovima koji predstavljaju odgovarajuće boje od kojih se slika sastoji. Kako bi se to omogućilo, kreirana je klasa \texttt{MIDIFile}, čiji atributi predstavljaju pojedine dijelove MIDI \textit{file}-a koji se sukcesivno kreira, odnosno koji ima predefinisane dijelove (\textit{header} dijelove), a dio koji se odnosi na same podatke (tj. tonove) inicijalno je prazan. Atributi klase \texttt{MIDIFile} prikazani su u Listingu \ref{MIDIclass}.
 
 \begin{lstlisting}[language={[Sharp]C}, caption={Klasa MIDIFile i njeni atributi}, label={MIDIclass}]
 public class MIDIFile
